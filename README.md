@@ -34,13 +34,57 @@ machine:
     NODE_IP: 10.10.10.10
 ```
 
-Build the image locally
+Build the image locally:
 
 ```
-docker build -t frr-talos-extension .
+docker build -t frr-gobgp-talos-extension .
 ```
 
-Image is available at `abckey/frr-talos-extension`
+By default, entry-point of image adopet for goBGP, as seen from examples:
+
+```
+docker run --rm  frr-gobgp-talos-extension --version
+gobgpd version 3.37.0
 
 
+docker run --rm  frr-gobgp-talos-extension --log-level=debug
+{"level":"info","msg":"gobgpd started","time":"2025-06-03T12:44:57Z"}
+{"Topic":"Config","level":"info","msg":"Finished reading the config file","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.2","Topic":"config","level":"info","msg":"Add Peer","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.2","Topic":"Peer","level":"info","msg":"Add a peer configuration","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.3","Topic":"config","level":"info","msg":"Add Peer","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.3","Topic":"Peer","level":"info","msg":"Add a peer configuration","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.4","Topic":"config","level":"info","msg":"Add Peer","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.4","Topic":"Peer","level":"info","msg":"Add a peer configuration","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.5","Topic":"config","level":"info","msg":"Add Peer","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.5","Topic":"Peer","level":"info","msg":"Add a peer configuration","time":"2025-06-03T12:44:57Z"}
+{"Duration":0,"Key":"192.168.10.2","Topic":"Peer","level":"debug","msg":"IdleHoldTimer expired","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.2","Topic":"Peer","level":"debug","msg":"state changed","new":"BGP_FSM_ACTIVE","old":"BGP_FSM_IDLE","reason":{"Type":7,"BGPNotification":null,"Data":null},"time":"2025-06-03T12:44:57Z"}
+{"Duration":0,"Key":"192.168.10.3","Topic":"Peer","level":"debug","msg":"IdleHoldTimer expired","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.3","Topic":"Peer","level":"debug","msg":"state changed","new":"BGP_FSM_ACTIVE","old":"BGP_FSM_IDLE","reason":{"Type":7,"BGPNotification":null,"Data":null},"time":"2025-06-03T12:44:57Z"}
+{"Duration":0,"Key":"192.168.10.5","Topic":"Peer","level":"debug","msg":"IdleHoldTimer expired","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.5","Topic":"Peer","level":"debug","msg":"state changed","new":"BGP_FSM_ACTIVE","old":"BGP_FSM_IDLE","reason":{"Type":7,"BGPNotification":null,"Data":null},"time":"2025-06-03T12:44:57Z"}
+{"Duration":0,"Key":"192.168.10.4","Topic":"Peer","level":"debug","msg":"IdleHoldTimer expired","time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.4","Topic":"Peer","level":"debug","msg":"state changed","new":"BGP_FSM_ACTIVE","old":"BGP_FSM_IDLE","reason":{"Type":7,"BGPNotification":null,"Data":null},"time":"2025-06-03T12:44:57Z"}
+{"Key":"192.168.10.5","Topic":"Peer","level":"debug","msg":"try to connect","time":"2025-06-03T12:44:58Z"}
+{"Key":"192.168.10.4","Topic":"Peer","level":"debug","msg":"try to connect","time":"2025-06-03T12:44:58Z"}
+{"Key":"192.168.10.2","Topic":"Peer","level":"debug","msg":"try to connect","time":"2025-06-03T12:44:58Z"}
+{"Key":"192.168.10.3","Topic":"Peer","level":"debug","msg":"try to connect","time":"2025-06-03T12:44:58Z"}
+^C{"level":"info","msg":"stopping gobgpd server","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.5","Topic":"Peer","level":"info","msg":"Delete a peer configuration","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.2","Topic":"Peer","level":"info","msg":"Delete a peer configuration","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.3","Topic":"Peer","level":"info","msg":"Delete a peer configuration","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.4","Topic":"Peer","level":"info","msg":"Delete a peer configuration","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.3","Topic":"Peer","level":"debug","msg":"stop connect loop","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.4","Topic":"Peer","level":"debug","msg":"stop connect loop","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.2","Topic":"Peer","level":"debug","msg":"stop connect loop","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.5","Topic":"Peer","level":"debug","msg":"stop connect loop","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.3","State":2,"Topic":"Peer","level":"debug","msg":"freed fsm.h","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.5","State":2,"Topic":"Peer","level":"debug","msg":"freed fsm.h","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.2","State":2,"Topic":"Peer","level":"debug","msg":"freed fsm.h","time":"2025-06-03T12:45:01Z"}
+{"Key":"192.168.10.4","State":2,"Topic":"Peer","level":"debug","msg":"freed fsm.h","time":"2025-06-03T12:45:01Z"}
 
+```
+
+
+Original image (frr only) is available at `abckey/frr-talos-extension`
