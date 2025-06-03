@@ -1,10 +1,10 @@
 version: v1alpha1
 metadata:
-  name: frr
-  version: v8.4.1
-  author: Kai Zhang (kimi.zhangkai@gmail.com)
+  name: frr_and_gobgp
+  version: v10.2.3
+  author: Original idea - Kai Zhang (kimi.zhangkai@gmail.com), goBGP adopting - Vitaly Zverev (vitaly.zverev@gmail.com)
   description: |
-    This system extension provides `frr` BGP routing on the host.
+    This system extension provides `frr` and `goBGP` routing on the host.
   compatibility:
     talos:
       version: "> v1.2.0"
