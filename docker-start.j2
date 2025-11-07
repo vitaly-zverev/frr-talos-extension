@@ -26,7 +26,9 @@ echo $PATH
     /sbin/ip netns exec $NAMESPACE_METALLB /sbin/ip link set veth-a mtu $INTERFACE_MTU || true
 
 # generate ports list
-lshw -class network -json |jq '{"ports": [ .[] |select(has("businfo")) |select(.businfo|test("^pci.")) | .logicalname ]}'   > /ports.json
+## lshw -class network -json |jq '{"ports": [ .[] |select(has("businfo")) |select(.businfo|test("^pci.")) | .logicalname ]}'   > /ports.json
+## Fix for QEMU VMs
+lshw -class network -json |jq '{"ports": [ .[] | .logicalname ]}'   > /ports.json
 log "cat /ports.json"
 cat /ports.json
 

@@ -43,6 +43,8 @@ docker build -t frr-gobgp-talos-extension .
 By default, entry-point of image adopet for goBGP, as seen from examples:
 
 ```
+------------------------------ e2e ----------------------------------
+ 
 git clone https://github.com/vitaly-zverev/frr-talos-extension && cd frr-talos-extension
 
 docker build -t frr-gobgp-talos-extension:1.5 --no-cache .
@@ -193,6 +195,49 @@ sudo --preserve-env=HOME talosctl logs ext-frr  --nodes 10.5.0.3 --tail -30 | gr
 10.5.0.3: Nov  7 19:49:14 demo-worker-1 daemon.notice watchfrr[43]: [QDG3Y-BY5TN] bgpd state -> up : connect succeeded
 10.5.0.3: Nov  7 19:49:14 demo-worker-1 daemon.notice watchfrr[43]: [QDG3Y-BY5TN] bfdd state -> up : connect succeeded
 10.5.0.3: Nov  7 19:49:18 demo-worker-1 daemon.notice watchfrr[43]: [QDG3Y-BY5TN] staticd state -> up : connect succeeded
+
+sudo --preserve-env=HOME talosctl logs ext-frr  --nodes 10.5.0.3 --tail 50 | grep -A40 'show bgp vrf all summary'
+10.5.0.3: [2025-11-07-22:25:08][frr] vtysh -c 'show bgp vrf all summary'
+10.5.0.3:
+10.5.0.3: IPv4 Unicast Summary:
+10.5.0.3: BGP router identifier 10.10.10.10, local AS number 4200099998 VRF metallb vrf-id 1
+10.5.0.3: BGP table version 0
+10.5.0.3: RIB entries 0, using 0 bytes of memory
+10.5.0.3: Peers 1, using 17 KiB of memory
+10.5.0.3: Peer groups 1, using 64 bytes of memory
+10.5.0.3:
+10.5.0.3: Neighbor        V         AS    LocalAS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc
+10.5.0.3: 192.168.250.255 4 4200099999 4200099998         0         0        0    0    0    never       Active        0 N/A
+10.5.0.3:
+10.5.0.3: Total number of neighbors 1
+10.5.0.3:
+10.5.0.3: IPv4 Unicast Summary:
+10.5.0.3: BGP router identifier 10.10.10.10, local AS number 4200001001 VRF default vrf-id 0
+10.5.0.3: BGP table version 0
+10.5.0.3: RIB entries 0, using 0 bytes of memory
+10.5.0.3: Peers 2, using 33 KiB of memory
+10.5.0.3: Peer groups 1, using 64 bytes of memory
+10.5.0.3:
+10.5.0.3: Neighbor        V         AS    LocalAS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc
+10.5.0.3: None            4          0 4200001001         0         0        0    0    0    never         Idle        0 N/A
+10.5.0.3: enp0s2          4          0 4200001001         0         0        0    0    0    never         Idle        0 N/A
+10.5.0.3:
+10.5.0.3: Total number of neighbors 2
+10.5.0.3: [2025-11-07-22:25:08][frr] vtysh -c 'show ip route'
+10.5.0.3: Codes: K - kernel route, C - connected, L - local, S - static,
+10.5.0.3:        R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+10.5.0.3:        T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+10.5.0.3:        f - OpenFabric, t - Table-Direct,
+10.5.0.3:        > - selected route, * - FIB route, q - queued, r - rejected, b - backup
+10.5.0.3:        t - trapped, o - offload failure
+10.5.0.3:
+10.5.0.3: IPv4 unicast VRF default:
+10.5.0.3: K>* 0.0.0.0/0 [0/1024] via 10.5.0.1, enp0s2, src 10.5.0.3, weight 1, 00:03:05
+10.5.0.3: C>* 10.5.0.0/24 [0/1024] is directly connected, enp0s2, weight 1, 00:03:05
+10.5.0.3: L>* 10.5.0.3/32 is directly connected, enp0s2, weight 1, 00:03:05
+10.5.0.3: L * 10.244.0.0/32 is directly connected, flannel.1, weight 1, 00:03:05
+10.5.0.3: C>* 10.244.0.0/32 is directly connected, flannel.1, weight 1, 00:03:05
+10.5.0.3: K>* 10.244.1.0/24 [0/0] via 10.244.1.0, flannel.1 onlink, weight 1, 00:03:05
 
 sudo --preserve-env=HOME talosctl cluster destroy --name demo --provisioner qemu
 stopping VMs
