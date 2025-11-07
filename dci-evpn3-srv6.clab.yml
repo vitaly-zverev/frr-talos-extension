@@ -1,0 +1,82 @@
+name: dci-evpn3-srv6
+
+topology:
+
+  kinds: 
+    nokia_srlinux:
+      type: ixr-d3
+      image: ghcr.io/nokia/srlinux:25.7.2-266
+  nodes:
+    # Провайдеры
+    Provider1:
+      kind: nokia_srlinux
+
+    Provider2:
+      kind: nokia_srlinux
+
+    Provider3:
+      kind: nokia_srlinux
+
+    # Spine маршрутизаторы DCI
+    Spine1:
+      kind: nokia_srlinux
+
+    Spine2:
+      kind: nokia_srlinux
+
+    # Leaf маршрутизаторы
+    Leaf1:
+      kind: nokia_srlinux
+
+    Leaf2:
+      kind: nokia_srlinux
+
+    Leaf3:
+      kind: nokia_srlinux
+
+    Leaf4:
+      kind: nokia_srlinux
+
+    # Linux хосты
+    Server1:
+      kind: linux
+      image: library/alpine:3.22.2
+
+    Server2:
+      kind: linux
+      image: library/alpine:3.22.2
+
+  links:
+    # Межпровайдерские связи
+    - endpoints: [ "Provider1:e1-1", "Provider2:e1-1" ]
+    - endpoints: [ "Provider2:e1-2", "Provider3:e1-1" ]
+    - endpoints: [ "Provider3:e1-2", "Provider1:e1-2" ]
+
+    # Связи провайдеров с spine
+    - endpoints: [ "Provider1:e1-3", "Spine1:e1-1" ]
+    - endpoints: [ "Provider2:e1-3", "Spine1:e1-2" ]
+    - endpoints: [ "Provider1:e1-4", "Spine2:e1-1" ]
+    - endpoints: [ "Provider2:e1-4", "Spine2:e1-2" ]
+
+    # Связи spine-leaf
+    - endpoints: [ "Spine1:e1-3", "Leaf1:e1-1" ]
+    - endpoints: [ "Spine1:e1-4", "Leaf2:e1-1" ]
+    - endpoints: [ "Spine2:e1-3", "Leaf3:e1-1" ]
+    - endpoints: [ "Spine2:e1-4", "Leaf4:e1-1" ]
+
+    # Дублирующие связи для резервирования
+    - endpoints: [ "Spine1:e1-5", "Leaf3:e1-2" ]
+    - endpoints: [ "Spine1:e1-6", "Leaf4:e1-2" ]
+    - endpoints: [ "Spine2:e1-5", "Leaf1:e1-2" ]
+    - endpoints: [ "Spine2:e1-6", "Leaf2:e1-2" ]
+
+    # Подключения серверов
+    - endpoints: [ "Leaf1:e1-3", "Server1:eth1" ]
+    - endpoints: [ "Leaf2:e1-3", "Server1:eth2" ]
+    - endpoints: [ "Leaf3:e1-3", "Server2:eth1" ]
+    - endpoints: [ "Leaf4:e1-3", "Server2:eth2" ]
+
+#mgmt:
+  # network: custom_mgmt                # management network name
+#  ipv4-subnet: 172.100.100.0/24       # ipv4 range
+#  ipv6-subnet: 3fff:172:100:100::/80  # ipv6 range (optional)   

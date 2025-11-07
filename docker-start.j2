@@ -31,8 +31,8 @@ log "cat /ports.json"
 cat /ports.json
 
 ##generate frr.conf
-log 'j2 -e "" -o /etc/frr/frr.conf /etc/frr/frr.conf.j2 /ports.json'
-j2 -e "" -o /etc/frr/frr.conf /etc/frr/frr.conf.j2 /ports.json
+log 'source venv/bin/activate && j2 -e "" -o /etc/frr/frr.conf /etc/frr/frr.conf.j2 /ports.json'
+source venv/bin/activate && j2 -e "" -o /etc/frr/frr.conf /etc/frr/frr.conf.j2 /ports.json
 log "cat /etc/frr/frr.conf"
 cat /etc/frr/frr.conf
 

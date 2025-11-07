@@ -1,4 +1,4 @@
-FROM quay.io/frrouting/frr:10.3.1 AS build_frr
+FROM quay.io/frrouting/frr:10.4.1 AS build_frr
 RUN echo -e '\
 export ASN_METALLB_LOCAL=4200099998 \n\
 export ASN_METALLB_REMOTE=4200099999 \n\
@@ -14,6 +14,8 @@ COPY daemons /etc/frr/daemons
 COPY frr.conf.j2 /etc/frr/frr.conf.j2
 COPY install_j2cli12.sh /install_j2cli12.sh
 RUN apk add --no-cache --update-cache tcpdump gettext py3-pip curl lldpd iputils bind-tools busybox-extras mtr lshw jq git
+
+# Из  шаблона /usr/lib/frr/docker-start.j2 готовим /usr/lib/frr/docker-start ( он указан вторым параметром tini в frr.yaml манифесте)
 RUN bash /install_j2cli12.sh && source venv/bin/activate && source /etc/frr/env.sh && j2 -o /usr/lib/frr/docker-start /usr/lib/frr/docker-start.j2
 
 FROM golang:1.24 AS build_gobgp

@@ -1,7 +1,7 @@
 version: v1alpha1
 metadata:
-  name: frr_and_gobgp
-  version: v10.2.3
+  name: frr
+  version: v10.4.1
   author: Original idea - Kai Zhang (kimi.zhangkai@gmail.com), goBGP adopting - Vitaly Zverev (vitaly.zverev@gmail.com)
   description: |
     This system extension provides `frr` and `goBGP` routing on the host.

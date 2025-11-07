@@ -1,0 +1,6 @@
+apiVersion: v1alpha1
+kind: ExtensionServiceConfig
+name: frr
+environment:
+ - ASN_LOCAL=4200001001
+ - NODE_IP=10.10.10.10
